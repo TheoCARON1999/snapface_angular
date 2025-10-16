@@ -1,0 +1,12 @@
+<div class="face-snap-card">
+    <h2>{{faceSnapModel.title}}</h2>
+    <p>Mis en ligne le {{faceSnapModel.createdAt}}</p>
+    <p>{{faceSnapModel.description}}</p>
+    <p>
+        <!-- () event binding-->
+        <button (click)="onSnap()">{{buttonText}}</button>
+        {{faceSnapModel.snaps}} 🤏
+    </p>
+    <!-- [] Angular binding-->
+    <img [src]="faceSnapModel.imageUrl" [alt]="faceSnapModel.title">
+</div>
