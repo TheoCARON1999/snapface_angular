@@ -1,4 +1,4 @@
-<!--attribut binding pour lier l'objet firstFaceSnap à la propriété personnalisée (variable faceSnapModel) de faceSnap-->
-<app-face-snap [faceSnapModel]="firstFaceSnap"></app-face-snap>
-<app-face-snap [faceSnapModel]="secondFaceSnap"></app-face-snap>
-<app-face-snap [faceSnapModel]="thirdFaceSnap"></app-face-snap>
+<!--attribut binding pour lier les objets faceSnaps à la propriété personnalisée (variable faceSnapModel) du component faceSnap-->
+@for (item of faceSnaps; track item.title) {
+    <app-face-snap [faceSnapModel]="item"/>
+}
