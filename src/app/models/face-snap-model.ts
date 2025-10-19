@@ -1,5 +1,8 @@
 
 export class FaceSnapModel {
+  nameLocation?: string
+  mapLocation?: string
+
   // déclaration et initialistion simplié (raccourci TypeScript)
   constructor(
     public title: string,
@@ -14,5 +17,12 @@ export class FaceSnapModel {
 
     removeSnap() {
       this.snaps--
+    }
+
+    setNameLocation(namelocation : string) {
+      this.nameLocation = namelocation
+    }
+    setMapLocation(mapLocation : string) {
+      this.mapLocation = mapLocation
     }
 }

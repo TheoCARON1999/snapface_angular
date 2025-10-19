@@ -29,6 +29,10 @@ export class App implements OnInit{
         "Salle de la bibliothèque baroque située dans le complexe Clementinum à Prague", 
         new Date, 71, 
         'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/Clementinum_baroque_library_2.jpg/1599px-Clementinum_baroque_library_2.jpg?20240413172100')
+      
+      this.firstFaceSnap.setNameLocation('Brésil')
+      this.thirdFaceSnap.setNameLocation('Prague')
+      this.thirdFaceSnap.setMapLocation('https://www.google.com/maps/place/Clementinum/@50.08424,14.4097656,6842m/data=!3m1!1e3!4m6!3m5!1s0x470b94ef35324235:0xb234ae92107e0d9f!8m2!3d50.0865979!4d14.4160186!16zL20vMDU5dHk5?authuser=0&entry=ttu&g_ep=EgoyMDI1MTAxNC4wIKXMDSoASAFQAw%3D%3D')
   }
 
 }

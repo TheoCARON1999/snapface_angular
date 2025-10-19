@@ -1,5 +1,14 @@
 <div class="face-snap-card">
     <h2>{{faceSnapModel.title}}</h2>
+    <!--ajoute les informations de locatilisations de la photo si disponible-->
+    @if (faceSnapModel.nameLocation) {
+        <p>location:
+        @if (faceSnapModel.mapLocation) {<a [href]="faceSnapModel.mapLocation">{{faceSnapModel.nameLocation}}</a>}
+        @else {
+            {{faceSnapModel.nameLocation}}
+        }
+        </p>
+    }
     <p>Mis en ligne le {{faceSnapModel.createdAt}}</p>
     <p>{{faceSnapModel.description}}</p>
     <p>
