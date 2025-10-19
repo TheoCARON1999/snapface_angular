@@ -1,4 +1,5 @@
-<div class="face-snap-card">
+<!-- [] property (attribute) binding (Angular), ngClass = directive -->
+<div class="face-snap-card" [ngClass]="{snapped : snapped}">
     <h2>{{faceSnapModel.title}}</h2>
     <!--ajoute les informations de locatilisations de la photo si disponible-->
     @if (faceSnapModel.nameLocation) {
@@ -12,10 +13,11 @@
     <p>Mis en ligne le {{faceSnapModel.createdAt}}</p>
     <p>{{faceSnapModel.description}}</p>
     <p>
-        <!-- () event binding-->
+        <!-- () event binding (Angular) -->
         <button (click)="onSnap()">{{buttonText}}</button>
-        {{faceSnapModel.snaps}} 🤏
+        <!-- [] property (attribute) binding (Angular), ngStyle = directive -->
+        <span [ngStyle]="{color : 'rgb(0, '+ faceSnapModel.snaps + ', 0)'}">{{faceSnapModel.snaps}}</span> 🤏
     </p>
-    <!-- [] Angular binding-->
+    <!-- [] property (attribute) binding (Angular) -->
     <img [src]="faceSnapModel.imageUrl" [alt]="faceSnapModel.title">
 </div>
