@@ -1,6 +1,7 @@
 <!-- [] property (attribute) binding (Angular), ngClass = directive -->
 <div class="face-snap-card" [ngClass]="{snapped : snapped}">
-    <h2>{{faceSnapModel.title}}</h2>
+    <!-- le pipe modifie le fromatage d'affichage de la donnée -->
+    <h2>{{faceSnapModel.title | titlecase}}</h2>
     <!--ajoute les informations de locatilisations de la photo si disponible-->
     @if (faceSnapModel.nameLocation) {
         <p>location:
@@ -10,7 +11,7 @@
         }
         </p>
     }
-    <p>Mis en ligne le {{faceSnapModel.createdAt}}</p>
+    <p>Mis en ligne le {{faceSnapModel.createdAt | date : 'd MMMM y à HH:mm:ss'}}</p>
     <p>{{faceSnapModel.description}}</p>
     <p>
         <!-- () event binding (Angular) -->
@@ -20,4 +21,8 @@
     </p>
     <!-- [] property (attribute) binding (Angular) -->
     <img [src]="faceSnapModel.imageUrl" [alt]="faceSnapModel.title">
+    <!-- ajoute une valeur potentielle du post (snap) si disponible en modifiant son formatage -->
+     @if (faceSnapModel.value) {
+        <p id="potentialSnapValue">{{faceSnapModel.value | number: '1.0-1'}}💸</p><!--'chiffresMinAvantVirgule.chiffresMinAprèsVirgule-chiffresMaxAprèsVirgule'-->
+     }
 </div>

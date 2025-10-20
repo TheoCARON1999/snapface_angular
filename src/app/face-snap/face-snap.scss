@@ -29,6 +29,12 @@
       box-shadow: lightgray 0 0 5px;
     }
   }
+
+  #potentialSnapValue {
+    font-size: 10px;
+    color: coral;
+    text-align: right;
+  }
 }
 
 // modifie l'affiche d'un post photo (face-snap) si l'utilisateur à snap (like)

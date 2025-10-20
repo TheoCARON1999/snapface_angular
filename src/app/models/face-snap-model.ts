@@ -2,6 +2,7 @@
 export class FaceSnapModel {
   nameLocation?: string
   mapLocation?: string
+  value?: number
 
   // déclaration et initialistion simplié (raccourci TypeScript)
   constructor(
