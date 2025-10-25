@@ -1,8 +1,10 @@
+import { SnapType } from "./snap-type"
 
 export class FaceSnapModel {
   nameLocation?: string
   mapLocation?: string
   value?: number
+  id : string
 
   // déclaration et initialistion simplié (raccourci TypeScript)
   constructor(
@@ -10,7 +12,9 @@ export class FaceSnapModel {
     public description: string,
     public createdAt: Date,
     public snaps: number,
-    public imageUrl: string) {}
+    public imageUrl: string) {
+      this.id = crypto.randomUUID().substring(0, 10)
+    }
 
     addSnap() {
       this.snaps++
@@ -18,6 +22,14 @@ export class FaceSnapModel {
 
     removeSnap() {
       this.snaps--
+    }
+
+    snap(state : SnapType) {
+      if(state === 'snap') {
+        this.addSnap()
+      } else if(state === 'unsnap') {
+        this.removeSnap()
+      }
     }
 
     setNameLocation(namelocation : string) : FaceSnapModel {
