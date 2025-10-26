@@ -39,12 +39,17 @@ export class FaceSnapsService {
     return [...this.FaceSnaps]
   }
 
-  //update only the number of snaps
-  SnapFaceSnapById(id : string, state : SnapType) {
+  getFaceSnapById(id : string) : FaceSnapModel {
     const foundFaceSnap = this.FaceSnaps.find(item => item.id === id)
     if(!foundFaceSnap) {
       throw new Error("FaceSnap not found")
     }
-    foundFaceSnap.snap(state)
+    return foundFaceSnap
+  }
+
+  //update only the number of snaps
+  SnapFaceSnapById(id : string, state : SnapType) {
+    
+    this.getFaceSnapById(id).snap(state)
   }
 }
