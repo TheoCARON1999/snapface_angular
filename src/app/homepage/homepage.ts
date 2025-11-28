@@ -1,9 +1,10 @@
 import { Component, inject } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-homepage',
-  imports: [RouterLink],
+  imports: [FormsModule],
   templateUrl: './homepage.html',
   styleUrl: './homepage.scss'
 })
@@ -15,4 +16,7 @@ export class Homepage {
     this.router.navigateByUrl('facesnaps')
   }
 
+  onAdd() {
+    this.router.navigateByUrl('create')
+  }
 }

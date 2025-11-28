@@ -1,0 +1,57 @@
+<div class="form-card">
+    <h2>Nouveau face-snap</h2>
+    <form [formGroup]="faceForm">
+        <div class="form-group">
+            <label for="title">Titre</label>
+            <input id="title" type="text" formControlName="title" required="true">
+        </div>
+        <div class="form-group">
+            <label for="description">Description</label>
+            <textarea id="description" type="text" formControlName="description" rows="4" required="true">
+            </textarea>
+        </div>
+        <div class="form-group">
+            <label for="imageUrl">URL de l'image</label>
+            <input id="imageUrl" type="text" formControlName="imageUrl" required="true">
+        </div>
+        <div class="form-group">
+            <label for="nameLocation">Lieu</label>
+            <input id="nameLocation" type="text" formControlName="nameLocation">
+        </div>
+        <div class="form-group">
+            <label for="mapLocation">URL du lieu</label>
+            <input id="mapLocation" type="url" formControlName="mapLocation">
+        </div>
+        <div class="action-buttons">
+            <button type="submit" (click)="onSubmit()" [disabled]="faceForm.invalid">Enregistrer</button>
+        </div>
+        @if (errorMessage) {
+            <p class="errorMessage">{{errorMessage}}</p>
+        }
+    </form>
+</div>
+
+@if (faceSnapPreview$ | async; as faceSnapModel) {
+    <div class="face-snap-card">
+        <h3>Aperçu du FaceSnap :</h3>
+        <!-- le pipe modifie le fromatage d'affichage de la donnée -->
+        <h2>{{faceSnapModel.title | titlecase}}</h2>
+        <!--ajoute les informations de locatilisations de la photo si disponible-->
+        @if (faceSnapModel.nameLocation) {
+            <p>location:
+            @if (faceSnapModel.mapLocation) {<a [href]="faceSnapModel.mapLocation">{{faceSnapModel.nameLocation}}</a>}
+            @else {
+                {{faceSnapModel.nameLocation}}
+            }
+            </p>
+        }
+        <p>Mis en ligne le {{faceSnapModel.createdAt | date : 'd MMMM y à HH:mm:ss'}}</p>
+        <p>{{faceSnapModel.description}}</p>
+        <!-- [] property (attribute) binding (Angular) -->
+        <img [src]="faceSnapModel.imageUrl" [alt]="faceSnapModel.title">
+        @if (faceSnapModel.value) {
+            <p id="potentialSnapValue">{{faceSnapModel.value | number: '1.0-1'}}💸</p><!--'chiffresMinAvantVirgule.chiffresMinAprèsVirgule-chiffresMaxAprèsVirgule'-->
+        }
+        
+    </div>
+}

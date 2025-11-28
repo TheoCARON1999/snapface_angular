@@ -1,4 +1,4 @@
-import { Component, inject, Inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FaceSnapModel } from '../models/face-snap-model';
 import { FaceSnap } from '../face-snap/face-snap';
 import { FaceSnapsService } from '../face-snaps-service';

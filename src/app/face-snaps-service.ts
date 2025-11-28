@@ -47,9 +47,19 @@ export class FaceSnapsService {
     return foundFaceSnap
   }
 
-  //update only the number of snaps
+  //update only the number of snaps (likes)
   SnapFaceSnapById(id : string, state : SnapType) {
     
     this.getFaceSnapById(id).snap(state)
+  }
+
+  addFaceSnap(faceSnapForm : FaceSnapModel): boolean {
+    const faceSnap = new FaceSnapModel(faceSnapForm.title, faceSnapForm.description, new Date, 0, 
+      faceSnapForm.imageUrl).withLocation(faceSnapForm.nameLocation ?? undefined, faceSnapForm.mapLocation ?? undefined)
+    console.log(`addFaceSnap param : ${JSON.stringify(faceSnap)}`)
+    const previousLength = this.FaceSnaps.length
+    const newLength = this.FaceSnaps.push(faceSnap)
+    console.log(`addFaceSnap faceSnaps : ${JSON.stringify(this.FaceSnaps)}`)
+    return newLength > previousLength
   }
 }
