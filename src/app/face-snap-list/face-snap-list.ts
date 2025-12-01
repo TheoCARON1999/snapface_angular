@@ -9,14 +9,10 @@ import { FaceSnapsService } from '../face-snaps-service';
   templateUrl: './face-snap-list.html',
   styleUrl: './face-snap-list.scss'
 })
-export class FaceSnapList implements OnInit {
-
-  faceSnaps!: FaceSnapModel[]
+export class FaceSnapList {
 
   private dataService = inject(FaceSnapsService)
 
-  ngOnInit(): void {
-      this.faceSnaps = this.dataService.getFaceSnaps()
-  }
+  faceSnaps = this.dataService.faceSnapList
 
 }

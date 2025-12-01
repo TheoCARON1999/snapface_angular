@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { computed, Injectable, signal } from '@angular/core';
 import { FaceSnapModel } from './models/face-snap-model';
 import { SnapType } from './models/snap-type';
 
@@ -7,7 +7,7 @@ import { SnapType } from './models/snap-type';
 })
 export class FaceSnapsService {
   //TODO : get information from a database or a API
-  private FaceSnaps : FaceSnapModel[] = [
+  private faceSnaps = signal<FaceSnapModel[]>([
     //example of information
     new FaceSnapModel("oiseaux", 
         "Couple d'aras jacinthes sous un arbre Ipê rose dans le Parque Estadual Encontro das Águas, Brésil", 
@@ -33,14 +33,14 @@ export class FaceSnapsService {
         new Date, 58,
         'https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/Parco_Regionale_dei_Colli_Euganei_2.jpg/1920px-Parco_Regionale_dei_Colli_Euganei_2.jpg'
       )
-  ]
+  ])
   
-  getFaceSnaps() : FaceSnapModel[] {
-    return [...this.FaceSnaps]
-  }
+  public faceSnapList = this.faceSnaps.asReadonly()
+  private _error = signal<string | null>(null)
+  public error = this._error.asReadonly()
 
   getFaceSnapById(id : string) : FaceSnapModel {
-    const foundFaceSnap = this.FaceSnaps.find(item => item.id === id)
+    const foundFaceSnap = this.faceSnaps().find(item => item.id === id)
     if(!foundFaceSnap) {
       throw new Error("FaceSnap not found")
     }
@@ -53,13 +53,16 @@ export class FaceSnapsService {
     this.getFaceSnapById(id).snap(state)
   }
 
-  addFaceSnap(faceSnapForm : FaceSnapModel): boolean {
+  addFaceSnap(faceSnapForm : FaceSnapModel) {
     const faceSnap = new FaceSnapModel(faceSnapForm.title, faceSnapForm.description, new Date, 0, 
       faceSnapForm.imageUrl).withLocation(faceSnapForm.nameLocation ?? undefined, faceSnapForm.mapLocation ?? undefined)
     console.log(`addFaceSnap param : ${JSON.stringify(faceSnap)}`)
-    const previousLength = this.FaceSnaps.length
-    const newLength = this.FaceSnaps.push(faceSnap)
-    console.log(`addFaceSnap faceSnaps : ${JSON.stringify(this.FaceSnaps)}`)
-    return newLength > previousLength
+    try {
+      this.faceSnaps.update(faceSnaps => [...faceSnaps , faceSnap])
+      console.log(`addFaceSnap faceSnaps length : ${JSON.stringify(this.faceSnaps().length)}`)
+      this._error.set(null)
+    } catch (error) {
+      this._error.set("erreur lors de l'ajout du face snap")
+    }
   }
 }

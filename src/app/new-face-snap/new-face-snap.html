@@ -25,8 +25,8 @@
         <div class="action-buttons">
             <button type="submit" (click)="onSubmit()" [disabled]="faceForm.invalid">Enregistrer</button>
         </div>
-        @if (errorMessage) {
-            <p class="errorMessage">{{errorMessage}}</p>
+        @if (errorMessage()) {
+            <p class="errorMessage">{{errorMessage()}}</p>
         }
     </form>
 </div>

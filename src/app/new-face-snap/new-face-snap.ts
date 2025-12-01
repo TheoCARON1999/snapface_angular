@@ -1,6 +1,6 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, effect, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { map, Observable } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map, Observable, startWith } from 'rxjs';
 import { FaceSnapModel } from '../models/face-snap-model';
 import { AsyncPipe, DatePipe, DecimalPipe, TitleCasePipe } from '@angular/common';
 import { FaceSnapsService } from '../face-snaps-service';
@@ -18,8 +18,8 @@ export class NewFaceSnap implements OnInit{
   faceSnapPreview$!: Observable<FaceSnapModel>
   private dataService: FaceSnapsService = inject(FaceSnapsService)
   private route = inject(Router)
-  errorMessage? : string
   private urlRegExp : RegExp = /(https?:\/\/)?([a-zA-Z0-9.-]+)\.[a-z]{2,6}(\S*)?$/
+  public errorMessage = this.dataService.error
 
   ngOnInit(): void {
     this.faceForm = this.formBuilder.group({
@@ -30,21 +30,28 @@ export class NewFaceSnap implements OnInit{
       nameLocation: ["Saint-Jean-d'Aulps"],
       mapLocation: ["https://www.google.com/maps/place/Pointe+de+Nantaux/@46.3088455,6.2290678,118730m/data=!3m1!1e3!4m6!3m5!1s0x478c1dc02332de55:0x1d08ab2c05b79e30!8m2!3d46.2263888!4d6.71!16s%2Fg%2F122090zb?authuser=0&entry=ttu&g_ep=EgoyMDI1MTEyMy4xIKXMDSoASAFQAw%3D%3D", Validators.pattern(this.urlRegExp)]
     })
-    this.faceSnapPreview$ = this.faceForm.valueChanges.pipe(map(values => ({
-      ...values,
-      createdAt: new Date(),
-      snaps: 0
-    })))
-  }
+
+    // l'aperçu est à mise à jour en temps réel dès que les information du formulaire change
+    this.faceSnapPreview$ = this.faceForm.valueChanges.pipe(
+      startWith(this.faceForm.value),
+      debounceTime(150),
+      map(values => ({
+        ...values,
+        createdAt: new Date(),
+        snaps: 0
+      })),
+      distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b))
+    )}
 
   //avec reactive form
   onSubmit() {
     console.log(this.faceForm.value)
-    console.log(this.faceForm.valid)
-    if(this.faceForm.valid) {
-      const result = this.dataService.addFaceSnap(this.faceForm.value)
-      console.log(this.dataService.getFaceSnaps())
-      result ? this.route.navigateByUrl("/facesnaps") : this.errorMessage = "échec de l'enregistrement !"
-    }
+    console.log(`validité du formulaire : ${this.faceForm.valid}`)
+    if(!this.faceForm.valid) return
+
+    this.dataService.addFaceSnap(this.faceForm.value)
+    console.log(this.dataService.faceSnapList())
+    if(!this.dataService.error())
+      this.route.navigateByUrl("/facesnaps")
   }
 }

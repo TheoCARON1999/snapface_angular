@@ -1,4 +1,3 @@
-<!--attribut binding pour lier les objets faceSnaps à la propriété personnalisée (variable faceSnapModel) du component faceSnap-->
-@for (item of faceSnaps; track item.title) {
+@for (item of faceSnaps(); track item.title) {
     <app-face-snap [faceSnapModel]="item"/>
 }
